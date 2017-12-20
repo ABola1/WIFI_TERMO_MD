@@ -1058,10 +1058,10 @@ void SendMojorDomo()
   if(millis()-lastConnectionTimeMD > postingIntervalMD)
   {
      String vcmd ; 
-     //String MojorDomoIP = Config.MDAddr;  // F("192.168.1.125");
-     //String MojorDomoObj = Config.MDObj;   //F("MYMETEO");
-     String MojorDomoIP = F("192.168.1.125");
-     String MojorDomoObj =F("MYMETEO");
+     String MojorDomoIP = Config.MDAddr;  // F("192.168.1.125");
+     String MojorDomoObj = Config.MDObj;   //F("MYMETEO");
+     //String MojorDomoIP = F("192.168.1.125");
+     //String MojorDomoObj =F("MYMETEO");
      //Config.senddata=3;
      
      for(int i=0; i<numberOfDevices; i++)
@@ -1088,6 +1088,10 @@ void SendMojorDomo()
       
       vcmd = HumidityDev.humidity;
       SendMDdata(MojorDomoObj, F("Humidity"), vcmd, MojorDomoIP);
+      delay(2000);
+      
+      vcmd = "1";
+      SendMDdata(MojorDomoObj, F("Change"), vcmd, MojorDomoIP);
       lastConnectionTimeMD=millis();
     }
  }
@@ -1127,7 +1131,7 @@ void loop() {
   TemperatureGet();
   HumidityRead();
   BarometrRead();
-  if(Config.senddata==1)    SendMojorDomo(); //SendNarodmon();
+  if(Config.senddata==1)  SendNarodmon();
   else if(Config.senddata==2)
   {
     WorkWEBpage();
