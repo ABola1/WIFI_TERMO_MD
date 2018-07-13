@@ -234,11 +234,12 @@ void MenuPrintHelp()
     Serial.println( F("help  -  show this text"));
     Serial.println( F("setip X.X.X.X/dhcp setup IP/DHCP"));
     Serial.println( F("setmask X.X.X.X   setup mask"));
+    Serial.println( F("setssid -  set access point ssid"));
     Serial.println( F("setpass -  set access point password"));
     Serial.println( F("showap -   show all access points"));
     Serial.println( F("mdaddr -   set MojorDomo address server"));
     Serial.println( F("mdobj  -   set MojorDomo object"));
-    Serial.println( F("senddata - 1- naromon.ru 2- internal WEB page 3- MojorDomo"));
+    Serial.println( F("senddata - 0- Config mode 1- naromon.ru 2- internal WEB page 3- MojorDomo"));
     Serial.println( F("saveconfig   Save configuration \n \n"));
 }
 
@@ -297,7 +298,13 @@ void MenuProg()//uint8_t *ipadr, uint8_t *mask, uint8_t *gw, uint8_t *dnsadr)
     break;
   
   case cmdSendData:
-    if(str[0]== '1')
+    if(str[0]== '0')
+    {
+      Config.senddata=0;
+      Serial.println();
+      Serial.println(F("CONFIG MODE!!! NO SEND DATA"));
+    }
+    else if(str[0]== '1')
     {
       Config.senddata=1;
       Serial.println();
@@ -366,7 +373,8 @@ void PrintConfig()
   Serial.print(F("MDOBJ :"));
   Serial.println(Config.MDObj); //st
   Serial.print(F("Send data im:"));
-  if(Config.senddata==1)Serial.println(F("narodmon.ru"));
+  if(Config.senddata==0)Serial.println(F("CONFIG MODE!!! NO SEND DATA"));
+  else if(Config.senddata==1)Serial.println(F("narodmon.ru"));
   else if(Config.senddata==2)Serial.println(F("internal WEB page"));
   else if(Config.senddata==3)Serial.println(F("MojorDomo"));
   Serial.println();
